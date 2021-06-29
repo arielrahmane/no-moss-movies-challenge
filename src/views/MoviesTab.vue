@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, modalController, pickerController } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonLabel, modalController, pickerController, IonButtons, IonButton } from '@ionic/vue';
 import { get } from '../helpers/api';
 import  MovieDetailsModal  from '../modals/MovieDetails.vue';
 
@@ -43,7 +43,10 @@ export default  {
     IonContent, 
     IonPage, 
     IonList, 
-    IonItem
+    IonItem,
+    IonLabel, 
+    IonButtons, 
+    IonButton 
   },
   data () {
     return {
