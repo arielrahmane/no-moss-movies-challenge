@@ -3,7 +3,7 @@ export default {
     api: {
       version: '',
       protocol: 'https',
-      host: '',
+      host: 'www.eventcinemas.com.au',
       port: '',
       address: function () {
         return this.protocol +
