@@ -15,7 +15,7 @@
         </ion-toolbar>
       </ion-header>
       <ion-list v-if="!filter">
-        <ion-item v-for="movie in movies" v-bind:key="movie.Id" button @click="openModal(movie)" >
+        <ion-item v-for="movie in movies" v-bind:key="movie.Id" button @click="openModal(movie)" :detail="true" :detail-icon="informationCircle" >
           <ion-label>{{movie.Name}}</ion-label>
         </ion-item>
       </ion-list>
@@ -30,9 +30,10 @@
 </template>
 
 <script>
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonLabel, modalController, pickerController, IonButtons, IonButton } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonLabel, modalController, pickerController, IonButtons, IonButton,  } from '@ionic/vue';
 import { get } from '../helpers/api';
 import  MovieDetailsModal  from '../modals/MovieDetails.vue';
+import { informationCircle } from 'ionicons/icons';
 
 export default  {
   name: 'MoviesTab',
@@ -46,7 +47,12 @@ export default  {
     IonItem,
     IonLabel, 
     IonButtons, 
-    IonButton 
+    IonButton
+  },
+  setup() {
+    return {
+      informationCircle
+    }
   },
   data () {
     return {
@@ -109,8 +115,9 @@ export default  {
       const modal = await modalController
         .create({
           component: MovieDetailsModal,
-          cssClass: 'my-custom-class',
           swipeToClose: true,
+          showBackdrop: true,
+          backdropDismiss: true,
           componentProps: {
             movie: selectedMovie
           },

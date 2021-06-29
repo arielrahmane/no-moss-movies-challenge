@@ -25,7 +25,7 @@ import { defineComponent  } from 'vue';
 export default defineComponent ({
   name: 'MovieDetailsModal',
   props: {
-    movie: {},
+    movie: {}
   },
   components: { 
       IonContent, 

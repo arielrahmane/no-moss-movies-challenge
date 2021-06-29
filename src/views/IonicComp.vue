@@ -17,7 +17,7 @@
           <ion-label>Date</ion-label>
           <ion-datetime placeholder="Select Date"></ion-datetime>
         </ion-item>
-        <ion-button @click="openPopover" color="primary" expand="block">Click me</ion-button>
+        <ion-button @click="openPopover" color="warning" expand="block">Click me</ion-button>
         <ion-item>
           <ion-label>Toggle Button</ion-label>
           <ion-toggle name="Toggle Button" color="secondary" checked></ion-toggle>
