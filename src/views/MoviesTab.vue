@@ -12,7 +12,7 @@
         </ion-toolbar>
       </ion-header>
       <ion-list>
-        <ion-item v-for="movie in movies" v-bind:key="movie.Id">
+        <ion-item v-for="movie in movies" v-bind:key="movie.Id" button @click="openModal(movie)" >
           <ion-label>{{movie.Name}}</ion-label>
         </ion-item>
       </ion-list>
@@ -21,8 +21,9 @@
 </template>
 
 <script>
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem } from '@ionic/vue';
-import {get} from '../helpers/api';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, modalController } from '@ionic/vue';
+import { get } from '../helpers/api';
+import  MovieDetailsModal  from '../modals/MovieDetails.vue';
 
 export default  {
   name: 'MoviesTab',
@@ -69,6 +70,18 @@ export default  {
             console.log("HTTP GET Request Error: ", error);
           }
         )
+    },
+    openModal: async function (selectedMovie) {
+      const modal = await modalController
+        .create({
+          component: MovieDetailsModal,
+          cssClass: 'my-custom-class',
+          swipeToClose: true,
+          componentProps: {
+            movie: selectedMovie
+          },
+        })
+      return modal.present();
     }
   }
 }
