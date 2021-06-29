@@ -36,17 +36,17 @@
       </ion-list>
       <ion-fab horizontal="end" vertical="bottom" slot="fixed">
         <ion-fab-button color="light">
-          <ion-icon md="caret-back" ios="chevron-back-circle-outline"></ion-icon>
+          <ion-icon :md="caretBack" :ios="chevronBackCircleOutline"></ion-icon>
         </ion-fab-button>
         <ion-fab-list side="top">
           <ion-fab-button color="light">
-            <ion-icon name="logo-facebook"></ion-icon>
+            <ion-icon :icon="logoFacebook"></ion-icon>
           </ion-fab-button>
           <ion-fab-button color="light">
-            <ion-icon name="logo-twitter"></ion-icon>
+            <ion-icon :icon="logoTwitter"></ion-icon>
           </ion-fab-button>
           <ion-fab-button color="light">
-            <ion-icon name="logo-vimeo"></ion-icon>
+            <ion-icon :icon="logoVimeo"></ion-icon>
           </ion-fab-button>
         </ion-fab-list>
       </ion-fab>
@@ -59,6 +59,7 @@ import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonLis
         IonItem, IonDatetime, IonSegment, IonIcon, IonFab, IonFabButton, IonFabList,
         popoverController   } from '@ionic/vue';
 import SamplePopOver from '../popovers/samplePopOver.vue';
+import { logoFacebook, logoTwitter, logoVimeo, caretBack, chevronBackCircleOutline } from 'ionicons/icons';
 
 export default  {
   name: 'IonicComp',
@@ -78,6 +79,15 @@ export default  {
     IonFab, 
     IonFabButton, 
     IonFabList
+  },
+  setup() {
+    return {
+      logoFacebook, 
+      logoTwitter, 
+      logoVimeo, 
+      caretBack, 
+      chevronBackCircleOutline
+    }
   },
   methods: {
     async openPopover(ev) {
