@@ -2,6 +2,9 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
+        <ion-buttons slot="end">
+          <ion-button @click="openPicker">Filter</ion-button>
+        </ion-buttons>
         <ion-title>Movies</ion-title>
       </ion-toolbar>
     </ion-header>
@@ -11,17 +14,23 @@
           <ion-title size="large">Movies</ion-title>
         </ion-toolbar>
       </ion-header>
-      <ion-list>
+      <ion-list v-if="!filter">
         <ion-item v-for="movie in movies" v-bind:key="movie.Id" button @click="openModal(movie)" >
           <ion-label>{{movie.Name}}</ion-label>
         </ion-item>
       </ion-list>
+      <ion-list v-else>
+        <ion-item v-for="movie in filteredMovies" v-bind:key="movie.Id" button @click="openModal(movie)" >
+          <ion-label>{{movie.Name}}</ion-label>
+        </ion-item>
+      </ion-list>
+      <ion-button expand="block" @click="filter=false" color="danger">Clear Filter</ion-button>
     </ion-content>
   </ion-page>
 </template>
 
 <script>
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, modalController } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, modalController, pickerController } from '@ionic/vue';
 import { get } from '../helpers/api';
 import  MovieDetailsModal  from '../modals/MovieDetails.vue';
 
@@ -38,7 +47,29 @@ export default  {
   },
   data () {
     return {
-      movies: []
+      movies: [],
+      filteredMovies: [],
+      filter: false,
+      genres: [
+        {
+          name: 'genres',
+          options: [
+            { text: 'Action', value: 'action' },
+            { text: 'Drama', value: 'drama' },
+            { text: 'Animated', value: 'animated' },
+            { text: 'Adventure', value: 'adventure' },
+            { text: 'Family', value: 'family' },
+            { text: 'Comedy', value: 'comedy' },
+            { text: 'Horror', value: 'horror' },
+            { text: 'Documentary', value: 'documentary' },
+            { text: 'Thriller', value: 'thriller' },
+            { text: 'Crime', value: 'crime' },
+            { text: 'Alternate Content', value: 'alternate content' },
+            { text: 'Foreign', value: 'foreign' },
+            { text: 'Classic', value: 'classic' },
+          ],
+        },
+      ]
     }
   },
   beforeMount () {
@@ -82,6 +113,33 @@ export default  {
           },
         })
       return modal.present();
+    },
+    filterMovies: function (genre) {
+      this.filter = true;
+      let filter = this.movies.filter(function (movie) {
+        return movie.Genres == genre;
+      });
+      this.filteredMovies = [...filter];
+    },
+    openPicker: async function () {
+      const picker = await pickerController.create({
+        columns: this.genres,
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel'
+          },
+          {
+            text: 'Confirm',
+            handler: (value) => {
+              console.log(`Got Value ${value}`);
+              console.log(value.genres.value);
+              this.filterMovies(value.genres.value);
+            }
+          }
+        ]
+      });
+      await picker.present();
     }
   }
 }
