@@ -11,9 +11,9 @@
   </ion-header>
   <ion-content class="ion-padding">
     <ion-card>
-        <ion-img :src="movie.SkinMobileUrl" alt="No Available Image" />
+        <ion-img :src="movie.LargePosterUrl" alt="No Available Image" />
         <ion-card-header>
-            <ion-card-subtitle>{{movie.Genres}}</ion-card-subtitle>
+            <ion-card-subtitle>{{movie.Genres.toUpperCase()}}</ion-card-subtitle>
             <ion-card-title>{{ movie.Name }}</ion-card-title>
         </ion-card-header>
         <ion-card-content>

@@ -16,12 +16,26 @@
       </ion-header>
       <ion-list v-if="!filter">
         <ion-item v-for="movie in movies" v-bind:key="movie.Id" button @click="openModal(movie)" :detail="true" :detail-icon="informationCircle" >
-          <ion-label>{{movie.Name}}</ion-label>
+          <ion-avatar slot="start">
+            <img :src="movie.LargePosterUrl">
+          </ion-avatar>
+          <ion-label>
+            <h2>{{movie.Name}}</h2>
+            <h3>{{movie.Genre}}</h3>
+            <p>{{movie.Synopsis}}</p>
+          </ion-label>
         </ion-item>
       </ion-list>
       <ion-list v-else>
         <ion-item v-for="movie in filteredMovies" v-bind:key="movie.Id" button @click="openModal(movie)" >
-          <ion-label>{{movie.Name}}</ion-label>
+          <ion-avatar slot="start">
+            <img :src="movie.LargePosterUrl">
+          </ion-avatar>
+          <ion-label>
+            <h2>{{movie.Name}}</h2>
+            <h3>{{movie.Genre}}</h3>
+            <p>{{movie.Synopsis}}</p>
+          </ion-label>
         </ion-item>
       </ion-list>
       <ion-button expand="block" @click="filter=false" color="danger">Clear Filter</ion-button>
@@ -32,7 +46,9 @@
 
 
 <script>
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonLabel, modalController, pickerController, IonButtons, IonButton,  } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonList,
+   IonItem, IonLabel, modalController, pickerController, IonButtons, 
+   IonButton, IonAvatar } from '@ionic/vue';
 import { get } from '../helpers/api';
 import  MovieDetailsModal  from '../modals/MovieDetails.vue';
 import { informationCircle } from 'ionicons/icons';
@@ -49,7 +65,8 @@ export default  {
     IonItem,
     IonLabel, 
     IonButtons, 
-    IonButton
+    IonButton,
+    IonAvatar
   },
   setup() {
     return {
