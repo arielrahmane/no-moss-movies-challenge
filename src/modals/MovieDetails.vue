@@ -1,14 +1,19 @@
 <template>
   <ion-header>
     <ion-toolbar>
+      <ion-buttons slot="end">
+        <ion-button @click="closeModal">
+          Close
+        </ion-button>
+      </ion-buttons>
       <ion-title>Movie Details</ion-title>
     </ion-toolbar>
   </ion-header>
   <ion-content class="ion-padding">
     <ion-card>
-        <ion-img :src="movie.SkinMobileUrl" alt="No Available Image" />
+        <ion-img :src="movie.LargePosterUrl" alt="No Available Image" />
         <ion-card-header>
-            <ion-card-subtitle>{{movie.Genres}}</ion-card-subtitle>
+            <ion-card-subtitle>{{movie.Genres.toUpperCase()}}</ion-card-subtitle>
             <ion-card-title>{{ movie.Name }}</ion-card-title>
         </ion-card-header>
         <ion-card-content>
@@ -19,13 +24,14 @@
 </template>
 
 <script>
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonImg, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent } from '@ionic/vue';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonImg, IonCardHeader,
+   IonCardSubtitle, IonCardTitle, IonCardContent, modalController } from '@ionic/vue';
 import { defineComponent  } from 'vue';
 
 export default defineComponent ({
   name: 'MovieDetailsModal',
   props: {
-    movie: {},
+    movie: {}
   },
   components: { 
       IonContent, 
@@ -37,6 +43,12 @@ export default defineComponent ({
       IonCardSubtitle, 
       IonCardTitle, 
       IonCardContent
+    },
+    methods: {
+      closeModal: async function () {
+        const modal = await modalController.getTop();
+        modal.dismiss();
+      }
     }
 });
 
