@@ -16,25 +16,21 @@
       </ion-header>
       <ion-list v-if="!filter">
         <ion-item v-for="movie in movies" v-bind:key="movie.Id" button @click="openModal(movie)" :detail="true" :detail-icon="informationCircle" >
-          <ion-avatar slot="start">
-            <img :src="movie.LargePosterUrl">
-          </ion-avatar>
+          <ion-img :src="movie.LargePosterUrl"  style="width:20%"></ion-img>
           <ion-label>
-            <h2>{{movie.Name}}</h2>
-            <h3>{{movie.Genre}}</h3>
-            <p>{{movie.Synopsis}}</p>
+            <h2 style="padding-left:10%">{{movie.Name}}</h2>
+            <h3 style="padding-left:10%">{{movie.Genre}}</h3>
+            <p style="padding-left:10%">{{movie.Synopsis}}</p>
           </ion-label>
         </ion-item>
       </ion-list>
       <ion-list v-else>
         <ion-item v-for="movie in filteredMovies" v-bind:key="movie.Id" button @click="openModal(movie)" >
-          <ion-avatar slot="start">
-            <img :src="movie.LargePosterUrl">
-          </ion-avatar>
+          <ion-img :src="movie.LargePosterUrl"  style="width:20%"></ion-img>
           <ion-label>
-            <h2>{{movie.Name}}</h2>
-            <h3>{{movie.Genre}}</h3>
-            <p>{{movie.Synopsis}}</p>
+            <h2 style="padding-left:10%">{{movie.Name}}</h2>
+            <h3 style="padding-left:10%">{{movie.Genre}}</h3>
+            <p style="padding-left:10%">{{movie.Synopsis}}</p>
           </ion-label>
         </ion-item>
       </ion-list>
@@ -48,7 +44,7 @@
 <script>
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonList,
    IonItem, IonLabel, modalController, pickerController, IonButtons, 
-   IonButton, IonAvatar } from '@ionic/vue';
+   IonButton } from '@ionic/vue';
 import { get } from '../helpers/api';
 import  MovieDetailsModal  from '../modals/MovieDetails.vue';
 import { informationCircle } from 'ionicons/icons';
@@ -65,8 +61,7 @@ export default  {
     IonItem,
     IonLabel, 
     IonButtons, 
-    IonButton,
-    IonAvatar
+    IonButton
   },
   setup() {
     return {
