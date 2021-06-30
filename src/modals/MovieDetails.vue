@@ -1,6 +1,11 @@
 <template>
   <ion-header>
     <ion-toolbar>
+      <ion-buttons slot="end">
+        <ion-button @click="closeModal">
+          Close
+        </ion-button>
+      </ion-buttons>
       <ion-title>Movie Details</ion-title>
     </ion-toolbar>
   </ion-header>
@@ -19,7 +24,8 @@
 </template>
 
 <script>
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonImg, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent } from '@ionic/vue';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonImg, IonCardHeader,
+   IonCardSubtitle, IonCardTitle, IonCardContent, modalController } from '@ionic/vue';
 import { defineComponent  } from 'vue';
 
 export default defineComponent ({
@@ -37,6 +43,12 @@ export default defineComponent ({
       IonCardSubtitle, 
       IonCardTitle, 
       IonCardContent
+    },
+    methods: {
+      closeModal: function () {
+        console.log("close modal");
+        modalController.dismiss();
+      }
     }
 });
 
