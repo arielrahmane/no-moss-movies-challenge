@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello Vue from No Moss</title>
+    <!-- Import Styles -->
+    <link rel="stylesheet" href="./assets/styles.css" />
+    <!-- Import Vue.js -->
+    <script src="https://unpkg.com/vue@3.0.0-beta.12/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+
+      <h3>User Input</h3>
+      <input v-model="message" />
+      <p>{{ message }}</p>
+
+      <h3>Computed Property</h3>
+      <p>{{ reversedMessage }}</p>
+
+      <h3>List Rendering</h3>
+      <button v-on:click="createList">Display List</button>
+      <ul>
+        <li v-for="item in items">
+          {{ item }}
+        </li>
+      </ul>
+
+      <h3>Basic Component</h3>
+      <div>
+        <button-counter></button-counter>
+    </div>
+    </div>
+
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    message: '',
+                    items: []
+                }
+            },
+            methods: {
+                reverseMessage() {
+                    this.message = this.message
+                    .split('')
+                    .reverse()
+                    .join('')
+                },
+                createList() {
+                    this.items = [];
+                    for (let i=0; i<10; i++) {
+                        this.items.push(i+1 + '. ' + this.message);
+                    }
+                }
+            },
+            computed: {
+                reversedMessage: function () {
+                    return this.message
+                    .split('')
+                    .reverse()
+                    .join('')
+                }
+            }
+        });
+
+        app.component('button-counter', {
+            data() {
+                return {
+                count: 0
+                }
+            },
+            template: `
+                <button @click="count++">
+                    You clicked me {{ count }} times.
+                </button>`
+        })
+
+        const mountedApp = app.mount('#app');
+    </script>
+
+  </body>
+</html>
