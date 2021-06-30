@@ -1,15 +1,6 @@
 import conf from '../config/config.dev.js'
 import axios from 'axios'
 
-/** @type {Boolean} */
-/*
-let isOnline = true
-
-if (typeof Connection !== 'undefined') isOnline = navigator.connection.type !== Connection.NONE // eslint-disable-line no-undef
-document.addEventListener('offline', function () { isOnline = false }, false)
-document.addEventListener('online', function (i) { isOnline = true }, false)
-*/
-
 /**
  * build the complete address to the resource according to config.dev.js.
  *

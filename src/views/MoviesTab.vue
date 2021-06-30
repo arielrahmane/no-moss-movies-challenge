@@ -38,7 +38,7 @@
           </ion-label>
         </ion-item>
       </ion-list>
-      <ion-button expand="block" @click="filter=false" color="danger">Clear Filter</ion-button>
+      <ion-button v-if="filter" expand="block" @click="filter=false" color="danger">Clear Filter</ion-button>
     </ion-content>
   </ion-page>
 </template>
