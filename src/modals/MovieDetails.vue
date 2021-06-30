@@ -45,9 +45,9 @@ export default defineComponent ({
       IonCardContent
     },
     methods: {
-      closeModal: function () {
-        console.log("close modal");
-        modalController.dismiss();
+      closeModal: async function () {
+        const modal = await modalController.getTop();
+        modal.dismiss();
       }
     }
 });
