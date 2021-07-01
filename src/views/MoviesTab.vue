@@ -62,26 +62,6 @@ export default  {
     return {
       movies: [],
       filterGenre: '',
-      genres: [
-        {
-          name: 'genres',
-          options: [
-            { text: 'Action', value: 'action' },
-            { text: 'Drama', value: 'drama' },
-            { text: 'Animated', value: 'animated' },
-            { text: 'Adventure', value: 'adventure' },
-            { text: 'Family', value: 'family' },
-            { text: 'Comedy', value: 'comedy' },
-            { text: 'Horror', value: 'horror' },
-            { text: 'Documentary', value: 'documentary' },
-            { text: 'Thriller', value: 'thriller' },
-            { text: 'Crime', value: 'crime' },
-            { text: 'Alternate Content', value: 'alternate content' },
-            { text: 'Foreign', value: 'foreign' },
-            { text: 'Classic', value: 'classic' },
-          ],
-        },
-      ]
     }
   },
   beforeMount () {
@@ -106,6 +86,24 @@ export default  {
           return movie.Genres == this.filterGenre;
         });
       }
+    },
+    computedGenres() {
+      let availableGenres = [];
+      let opts = [];
+      this.movies.forEach(movie => {
+        if (!availableGenres.includes(movie.Genres) && movie.Genres) {
+          availableGenres.push(movie.Genres);
+          let obj = {
+            text: movie.Genres.toUpperCase(),
+            value: movie.Genres
+          }
+          opts.push(obj);
+        }
+      });
+      return [{
+        name: 'genres',
+        options: opts
+      }];
     }
   },
   methods: {
@@ -136,7 +134,7 @@ export default  {
     },
     openPicker: async function () {
       const picker = await pickerController.create({
-        columns: this.genres,
+        columns: this.computedGenres,
         buttons: [
           {
             text: 'Cancel',
