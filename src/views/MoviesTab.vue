@@ -14,8 +14,8 @@
           <ion-title size="large">Movies</ion-title>
         </ion-toolbar>
       </ion-header>
-      <ion-list v-if="!filter">
-        <ion-item v-for="movie in movies" v-bind:key="movie.Id" button @click="openModal(movie)" :detail="true" :detail-icon="informationCircle" >
+      <ion-list>
+        <ion-item v-for="movie in computedFilteredMovies" v-bind:key="movie.Id" button @click="openModal(movie)" :detail="true" :detail-icon="informationCircle" >
           <ion-img :src="movie.LargePosterUrl"  style="width:20%"></ion-img>
           <ion-label>
             <h2 style="padding-left:10%">{{movie.Name}}</h2>
@@ -24,17 +24,7 @@
           </ion-label>
         </ion-item>
       </ion-list>
-      <ion-list v-else>
-        <ion-item v-for="movie in filteredMovies" v-bind:key="movie.Id" button @click="openModal(movie)" >
-          <ion-img :src="movie.LargePosterUrl"  style="width:20%"></ion-img>
-          <ion-label>
-            <h2 style="padding-left:10%">{{movie.Name}}</h2>
-            <h3 style="padding-left:10%">{{movie.Genre}}</h3>
-            <p style="padding-left:10%">{{movie.Synopsis}}</p>
-          </ion-label>
-        </ion-item>
-      </ion-list>
-      <ion-button v-if="filter" expand="block" @click="filter=false" color="danger">Clear Filter</ion-button>
+      <ion-button v-if="computedFilteredMovies != movies" expand="block" @click="filterGenre=''" color="danger">Clear Filter</ion-button>
     </ion-content>
   </ion-page>
 </template>
@@ -71,8 +61,7 @@ export default  {
   data () {
     return {
       movies: [],
-      filteredMovies: [],
-      filter: false,
+      filterGenre: '',
       genres: [
         {
           name: 'genres',
@@ -109,7 +98,15 @@ export default  {
     console.log("Movies Tab destroyed");
   },
   computed: {
-
+    computedFilteredMovies() {
+      if (this.filterGenre === '') {
+        return this.movies;
+      } else {
+        return this.movies.filter(movie => {
+          return movie.Genres == this.filterGenre;
+        });
+      }
+    }
   },
   methods: {
     getMoviesList: function () {
@@ -117,8 +114,7 @@ export default  {
           "Movies/GetNowShowing", 
           response => {
             this.movies = [...response.data.Data.Movies];
-            console.log(this.movies);
-
+            console.log(`movies`, this.movies);
           },
           error => {
             console.log("HTTP GET Request Error: ", error);
@@ -138,13 +134,6 @@ export default  {
         })
       return modal.present();
     },
-    filterMovies: function (genre) {
-      this.filter = true;
-      let filter = this.movies.filter(function (movie) {
-        return movie.Genres == genre;
-      });
-      this.filteredMovies = [...filter];
-    },
     openPicker: async function () {
       const picker = await pickerController.create({
         columns: this.genres,
@@ -158,7 +147,7 @@ export default  {
             handler: (value) => {
               console.log(`Got Value ${value}`);
               console.log(value.genres.value);
-              this.filterMovies(value.genres.value);
+              this.filterGenre = value.genres.value;
             }
           }
         ]
