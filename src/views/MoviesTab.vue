@@ -88,8 +88,13 @@ export default  {
       }
     },
     computedGenres() {
-      let availableGenres = [];
-      let opts = [];
+      let availableGenres = []; // Array with available genres
+      let opts = []; // Options for pickerController Column structure
+
+      /*
+      * Iteration on the list of movies to get the available genres. 
+      * This allows the user to have the full list of genres to filter.
+      */
       this.movies.forEach(movie => {
         if (!availableGenres.includes(movie.Genres) && movie.Genres) {
           availableGenres.push(movie.Genres);
@@ -151,6 +156,15 @@ export default  {
         ]
       });
       await picker.present();
+      picker.onDidDismiss().then(async () => {
+        picker.columns.forEach(col => {
+          col.options.forEach(el => {
+            delete el.selected;
+            delete el.duration;
+            delete el.transform;
+          });
+        });
+      });
     }
   }
 }
