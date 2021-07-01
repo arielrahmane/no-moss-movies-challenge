@@ -16,7 +16,6 @@
       </ion-header>
       <ion-list>
         <ion-item 
-          id="movieListItem"
           v-for="movie in computedFilteredMovies" 
           v-bind:key="movie.Id" 
           button 
@@ -26,7 +25,6 @@
           <ion-label>
             <h2>{{movie.Name}}</h2>
             <p class="movie-genre">{{movie.Genres.toUpperCase()}}</p>
-            <p v-if="movie.Director"> DIRECTOR: {{movie.Director}}</p>
           </ion-label>
         </ion-item>
       </ion-list>
@@ -184,10 +182,6 @@ ion-item {
   margin-top: 5%;
 }
 
-p.movie-genre {
-  font-weight: bold;
-}
-
 ion-label {
   padding-left:10%;
 }
@@ -206,6 +200,7 @@ ion-list {
   margin-right: 5%;
   margin-top: 5%;
   margin-bottom: 5%;
+  background-color: rgb(0, 0, 0);
 }
 
 .item-avatar {
