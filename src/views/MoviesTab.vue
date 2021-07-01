@@ -15,12 +15,18 @@
         </ion-toolbar>
       </ion-header>
       <ion-list>
-        <ion-item v-for="movie in computedFilteredMovies" v-bind:key="movie.Id" button @click="openModal(movie)" :detail="true" :detail-icon="informationCircle" >
-          <ion-img :src="movie.LargePosterUrl"  style="width:20%"></ion-img>
+        <ion-item 
+          id="movieListItem"
+          v-for="movie in computedFilteredMovies" 
+          v-bind:key="movie.Id" 
+          button 
+          @click="openModal(movie)"
+        >
+          <ion-img :src="movie.LargePosterUrl" class="item-avatar" ></ion-img>
           <ion-label>
-            <h2 style="padding-left:10%">{{movie.Name}}</h2>
-            <h3 style="padding-left:10%">{{movie.Genre}}</h3>
-            <p style="padding-left:10%">{{movie.Synopsis}}</p>
+            <h2>{{movie.Name}}</h2>
+            <p class="movie-genre">{{movie.Genres.toUpperCase()}}</p>
+            <p v-if="movie.Director"> DIRECTOR: {{movie.Director}}</p>
           </ion-label>
         </ion-item>
       </ion-list>
@@ -169,3 +175,43 @@ export default  {
   }
 }
 </script>
+
+<style scoped>
+ion-item {
+  --background:#131033;
+  --border-radius: 20px;
+  margin-bottom: 5%;
+  margin-top: 5%;
+}
+
+p.movie-genre {
+  font-weight: bold;
+}
+
+ion-label {
+  padding-left:10%;
+}
+
+ion-label h2 {
+  white-space: normal;
+  font-weight: 800;
+}
+
+ion-label p {
+  white-space: normal;
+}
+
+ion-list {
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
+.item-avatar {
+  width:40%; 
+  margin-top:5%; 
+  margin-bottom:5%;
+}
+
+</style>
