@@ -14,31 +14,21 @@
           <ion-title size="large">Movies</ion-title>
         </ion-toolbar>
       </ion-header>
-      <ion-list v-if="!filter">
-        <ion-item v-for="movie in movies" v-bind:key="movie.Id" button @click="openModal(movie)" :detail="true" :detail-icon="informationCircle" >
-          <ion-avatar slot="start">
-            <img :src="movie.LargePosterUrl">
-          </ion-avatar>
+      <ion-list>
+        <ion-item 
+          v-for="movie in computedFilteredMovies" 
+          v-bind:key="movie.Id" 
+          button 
+          @click="openModal(movie)"
+        >
+          <ion-img :src="movie.LargePosterUrl" class="item-avatar" ></ion-img>
           <ion-label>
             <h2>{{movie.Name}}</h2>
-            <h3>{{movie.Genre}}</h3>
-            <p>{{movie.Synopsis}}</p>
+            <p class="movie-genre">{{movie.Genres.toUpperCase()}}</p>
           </ion-label>
         </ion-item>
       </ion-list>
-      <ion-list v-else>
-        <ion-item v-for="movie in filteredMovies" v-bind:key="movie.Id" button @click="openModal(movie)" >
-          <ion-avatar slot="start">
-            <img :src="movie.LargePosterUrl">
-          </ion-avatar>
-          <ion-label>
-            <h2>{{movie.Name}}</h2>
-            <h3>{{movie.Genre}}</h3>
-            <p>{{movie.Synopsis}}</p>
-          </ion-label>
-        </ion-item>
-      </ion-list>
-      <ion-button expand="block" @click="filter=false" color="danger">Clear Filter</ion-button>
+      <ion-button v-if="computedFilteredMovies != movies" expand="block" @click="filterGenre=''" color="danger">Clear Filter</ion-button>
     </ion-content>
   </ion-page>
 </template>
@@ -48,7 +38,7 @@
 <script>
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonList,
    IonItem, IonLabel, modalController, pickerController, IonButtons, 
-   IonButton, IonAvatar } from '@ionic/vue';
+   IonButton } from '@ionic/vue';
 import { get } from '../helpers/api';
 import  MovieDetailsModal  from '../modals/MovieDetails.vue';
 import { informationCircle } from 'ionicons/icons';
@@ -65,8 +55,7 @@ export default  {
     IonItem,
     IonLabel, 
     IonButtons, 
-    IonButton,
-    IonAvatar
+    IonButton
   },
   setup() {
     return {
@@ -76,28 +65,7 @@ export default  {
   data () {
     return {
       movies: [],
-      filteredMovies: [],
-      filter: false,
-      genres: [
-        {
-          name: 'genres',
-          options: [
-            { text: 'Action', value: 'action' },
-            { text: 'Drama', value: 'drama' },
-            { text: 'Animated', value: 'animated' },
-            { text: 'Adventure', value: 'adventure' },
-            { text: 'Family', value: 'family' },
-            { text: 'Comedy', value: 'comedy' },
-            { text: 'Horror', value: 'horror' },
-            { text: 'Documentary', value: 'documentary' },
-            { text: 'Thriller', value: 'thriller' },
-            { text: 'Crime', value: 'crime' },
-            { text: 'Alternate Content', value: 'alternate content' },
-            { text: 'Foreign', value: 'foreign' },
-            { text: 'Classic', value: 'classic' },
-          ],
-        },
-      ]
+      filterGenre: '',
     }
   },
   beforeMount () {
@@ -114,7 +82,38 @@ export default  {
     console.log("Movies Tab destroyed");
   },
   computed: {
+    computedFilteredMovies() {
+      if (this.filterGenre === '') {
+        return this.movies;
+      } else {
+        return this.movies.filter(movie => {
+          return movie.Genres == this.filterGenre;
+        });
+      }
+    },
+    computedGenres() {
+      let availableGenres = []; // Array with available genres
+      let opts = []; // Options for pickerController Column structure
 
+      /*
+      * Iteration on the list of movies to get the available genres. 
+      * This allows the user to have the full list of genres to filter.
+      */
+      this.movies.forEach(movie => {
+        if (!availableGenres.includes(movie.Genres) && movie.Genres) {
+          availableGenres.push(movie.Genres);
+          let obj = {
+            text: movie.Genres.toUpperCase(),
+            value: movie.Genres
+          }
+          opts.push(obj);
+        }
+      });
+      return [{
+        name: 'genres',
+        options: opts
+      }];
+    }
   },
   methods: {
     getMoviesList: function () {
@@ -122,8 +121,7 @@ export default  {
           "Movies/GetNowShowing", 
           response => {
             this.movies = [...response.data.Data.Movies];
-            console.log(this.movies);
-
+            console.log(`movies`, this.movies);
           },
           error => {
             console.log("HTTP GET Request Error: ", error);
@@ -143,16 +141,9 @@ export default  {
         })
       return modal.present();
     },
-    filterMovies: function (genre) {
-      this.filter = true;
-      let filter = this.movies.filter(function (movie) {
-        return movie.Genres == genre;
-      });
-      this.filteredMovies = [...filter];
-    },
     openPicker: async function () {
       const picker = await pickerController.create({
-        columns: this.genres,
+        columns: this.computedGenres,
         buttons: [
           {
             text: 'Cancel',
@@ -163,13 +154,59 @@ export default  {
             handler: (value) => {
               console.log(`Got Value ${value}`);
               console.log(value.genres.value);
-              this.filterMovies(value.genres.value);
+              this.filterGenre = value.genres.value;
             }
           }
         ]
       });
       await picker.present();
+      picker.onDidDismiss().then(async () => {
+        picker.columns.forEach(col => {
+          col.options.forEach(el => {
+            delete el.selected;
+            delete el.duration;
+            delete el.transform;
+          });
+        });
+      });
     }
   }
 }
 </script>
+
+<style scoped>
+ion-item {
+  --background:#131033;
+  --border-radius: 20px;
+  margin-bottom: 5%;
+  margin-top: 5%;
+}
+
+ion-label {
+  padding-left:10%;
+}
+
+ion-label h2 {
+  white-space: normal;
+  font-weight: 800;
+}
+
+ion-label p {
+  white-space: normal;
+}
+
+ion-list {
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  background-color: rgb(0, 0, 0);
+}
+
+.item-avatar {
+  width:40%; 
+  margin-top:5%; 
+  margin-bottom:5%;
+}
+
+</style>

@@ -2,7 +2,7 @@
   <ion-page>
     <ion-tabs>
       <ion-router-outlet></ion-router-outlet>
-      <ion-tab-bar color="light">
+      <ion-tab-bar>
         <ion-tab-button tab="ionicComp" href="/tabs/ionicComp">
           <ion-icon :icon="logoIonic" />
           <ion-label>Ionic</ion-label>
@@ -32,3 +32,20 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+
+ion-tab-button ion-label {
+  font-size: 200%;
+  white-space: normal;
+}
+
+ion-tab-button ion-icon {
+  font-size: 300%;
+}
+
+ion-tab-bar {
+  height: 10%;
+}
+
+</style>

@@ -3,5 +3,9 @@
   "integrations": {
     "capacitor": {}
   },
-  "type": "vue"
+  "type": "vue",
+  "proxies": [{
+      "path": "/tabs/movies",
+      "proxyUrl": "https://www.eventcinemas.com.au/Movies/GetNowShowing"
+  }]
 }
