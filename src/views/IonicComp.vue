@@ -54,7 +54,8 @@
   </ion-page>
 </template>
 
-<script>
+<script lang="ts">
+
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonList, IonItemDivider, 
         IonItem, IonDatetime, IonSegment, IonIcon, IonFab, IonFabButton, IonFabList,
         popoverController   } from '@ionic/vue';
@@ -90,7 +91,7 @@ export default  {
     }
   },
   methods: {
-    async openPopover(ev) {
+    async openPopover(ev: Event): Promise<void> {
       const popover = await popoverController
         .create({
           component: SamplePopOver,

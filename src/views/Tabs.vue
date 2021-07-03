@@ -17,7 +17,7 @@
   </ion-page>
 </template>
 
-<script>
+<script lang="ts">
 import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
 import { logoIonic, list } from 'ionicons/icons';
 
