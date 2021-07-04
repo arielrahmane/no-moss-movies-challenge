@@ -20,7 +20,7 @@
   </ion-content>
 </template>
 
-<script>
+<script lang="ts">
 import { IonContent, IonList, IonItem, IonLabel } from '@ionic/vue';
 import { defineComponent } from 'vue';
 

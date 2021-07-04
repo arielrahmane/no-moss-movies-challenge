@@ -54,14 +54,16 @@
   </ion-page>
 </template>
 
-<script>
+<script lang="ts">
+
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonList, IonItemDivider, 
         IonItem, IonDatetime, IonSegment, IonIcon, IonFab, IonFabButton, IonFabList,
         popoverController   } from '@ionic/vue';
 import SamplePopOver from '../popovers/samplePopOver.vue';
 import { logoFacebook, logoTwitter, logoVimeo, caretBack, chevronBackCircleOutline } from 'ionicons/icons';
+import { defineComponent  } from 'vue';
 
-export default  {
+export default defineComponent({
   name: 'IonicComp',
   components: { 
     IonHeader, 
@@ -90,7 +92,7 @@ export default  {
     }
   },
   methods: {
-    async openPopover(ev) {
+    async openPopover(ev: Event): Promise<void> {
       const popover = await popoverController
         .create({
           component: SamplePopOver,
@@ -103,5 +105,5 @@ export default  {
       console.log('onDidDismiss resolved with role', role);
     },
   }
-}
+})
 </script>

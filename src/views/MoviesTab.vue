@@ -35,15 +35,36 @@
 
 
 
-<script>
+<script lang="ts">
+
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonList,
    IonItem, IonLabel, modalController, pickerController, IonButtons, 
-   IonButton } from '@ionic/vue';
+   IonButton, IonImg } from '@ionic/vue';
 import { get } from '../helpers/api';
 import  MovieDetailsModal  from '../modals/MovieDetails.vue';
 import { informationCircle } from 'ionicons/icons';
+import { defineComponent } from 'vue';
 
-export default  {
+interface movieInterface {
+  Id: number;
+  Name: string;
+  Genres: string;
+  Synopsis: string;
+  LargePosterUrl: string;
+  [index: string]: any;
+}
+
+interface pickerOption {
+  text: string;
+  value: string;
+}
+
+interface pickerColumn {
+  name: string;
+  options: pickerOption[];
+}
+
+export default defineComponent({
   name: 'MoviesTab',
   components: { 
     IonHeader, 
@@ -55,80 +76,75 @@ export default  {
     IonItem,
     IonLabel, 
     IonButtons, 
-    IonButton
+    IonButton,
+    IonImg
   },
   setup() {
     return {
       informationCircle
     }
   },
-  data () {
+  data() {
     return {
-      movies: [],
-      filterGenre: '',
+    movies: [] as movieInterface[],
+    filterGenre: '' as string,
     }
   },
-  beforeMount () {
-
-  },
-  mounted () {
+  mounted() {
     console.log("Movies Tab mounted");
     this.getMoviesList();
   },
-  created () {
-    console.log("Movies Tab created");
-  },
-  breforeDestroy () {
-    console.log("Movies Tab destroyed");
-  },
   computed: {
-    computedFilteredMovies() {
-      if (this.filterGenre === '') {
-        return this.movies;
+    computedFilteredMovies(): movieInterface[] {
+      const vm = this;
+      if (vm.filterGenre === '') {
+        return vm.movies;
       } else {
-        return this.movies.filter(movie => {
-          return movie.Genres == this.filterGenre;
+        return vm.movies.filter(function (movie: movieInterface) {
+          return movie.Genres == vm.filterGenre;
         });
       }
     },
-    computedGenres() {
-      let availableGenres = []; // Array with available genres
-      let opts = []; // Options for pickerController Column structure
+    computedGenres(): pickerColumn[] {
+      const vm = this;
+
+      // Array with available genres
+      var availableGenres: string[] = []; 
+
+      // Options for pickerController Column structure
+      var opts: pickerOption[] = []; 
 
       /*
       * Iteration on the list of movies to get the available genres. 
-      * This allows the user to have the full list of genres to filter.
+      * This allows the user to have the full list of genres for the filtering feature.
       */
-      this.movies.forEach(movie => {
+      for (let movie of vm.movies) {
         if (!availableGenres.includes(movie.Genres) && movie.Genres) {
           availableGenres.push(movie.Genres);
-          let obj = {
-            text: movie.Genres.toUpperCase(),
-            value: movie.Genres
-          }
-          opts.push(obj);
+          opts.push({text: movie.Genres.toUpperCase(), value: movie.Genres});
         }
-      });
-      return [{
-        name: 'genres',
-        options: opts
-      }];
+      }
+      return [{name: "genres", options: opts}];
     }
   },
   methods: {
-    getMoviesList: function () {
+    getMoviesList (): void {
+      const vm = this;
       get(
-          "Movies/GetNowShowing", 
-          response => {
-            this.movies = [...response.data.Data.Movies];
-            console.log(`movies`, this.movies);
+        {
+          resource: "Movies/GetNowShowing", 
+          done: (response) => {
+            vm.movies = [...response.data.Data.Movies];
+            console.log(`movies`, vm.movies);
           },
-          error => {
+          error: (error) => {
             console.log("HTTP GET Request Error: ", error);
-          }
-        )
+          },
+          config:  {}
+        }
+      )
     },
-    openModal: async function (selectedMovie) {
+    async openModal (selectedMovie: movieInterface): Promise<void> {
       const modal = await modalController
         .create({
           component: MovieDetailsModal,
@@ -141,9 +157,10 @@ export default  {
         })
       return modal.present();
     },
-    openPicker: async function () {
+    async openPicker (): Promise<void> {
+      const vm = this;
       const picker = await pickerController.create({
-        columns: this.computedGenres,
+        columns: vm.computedGenres,
         buttons: [
           {
             text: 'Cancel',
@@ -154,12 +171,16 @@ export default  {
             handler: (value) => {
               console.log(`Got Value ${value}`);
               console.log(value.genres.value);
-              this.filterGenre = value.genres.value;
+              vm.filterGenre = value.genres.value;
             }
           }
         ]
       });
       await picker.present();
+
+      /**
+       * The following code solves the problem of the picker options overlapping
+       */
       picker.onDidDismiss().then(async () => {
         picker.columns.forEach(col => {
           col.options.forEach(el => {
@@ -169,9 +190,10 @@ export default  {
           });
         });
       });
+
     }
   }
-}
+})
 </script>
 
 <style scoped>

@@ -1,5 +1,12 @@
-import conf from '../config/config.dev.js'
+import { moviesApi } from '../config/config.dev'
 import axios from 'axios'
+interface options {
+  resource: string;
+  done: (response: any) => void;
+  error: (error: any) => void;
+  data?: any;
+  config: any;
+}
 
 /**
  * build the complete address to the resource according to config.dev.js.
@@ -11,9 +18,9 @@ import axios from 'axios'
  *
  * @return {String} the full address to the resources.
  */
-const getResourceAddress = (resource) => {
-  resource = resource.trim()
-  return conf.api.address() + resource
+const getResourceAddress = (resource: string): string => {
+  resource = resource.trim();
+  return moviesApi.address() + resource;
 }
 
 /**
@@ -24,10 +31,10 @@ const getResourceAddress = (resource) => {
  * @param {function}  error - error callback.
  * @param {Object}  [config = {}] - request config.
  */
-export const get = (resource, done, error, config = {}) => {
-  axios.get(getResourceAddress(resource), config)
-    .then(done)
-    .catch(error)
+export const get = (opts: options): void => {
+  axios.get(getResourceAddress(opts.resource), opts.config)
+    .then(opts.done)
+    .catch(opts.error)
 }
 
 /**
@@ -39,10 +46,10 @@ export const get = (resource, done, error, config = {}) => {
  * @param {Object}  [data = {}] - request data.
  * @param {Object}  [config = {}] - request config.
  */
-export const post = (resource, done, error, data = {}, config = {}) => {
-  axios.post(getResourceAddress(resource), data, config)
-    .then(done)
-    .catch(error)
+export const post = (opts: options): void => {
+  axios.post(getResourceAddress(opts.resource), opts.data, opts.config)
+    .then(opts.done)
+    .catch(opts.error)
 }
 /**
  * perform a PUT request over the network to the specified resource
@@ -53,10 +60,10 @@ export const post = (resource, done, error, data = {}, config = {}) => {
  * @param {Object}  [data = {}] - request data.
  * @param {Object}  [config = {}] - request config.
  */
-export const put = (resource, done, error, data = {}, config = {}) => {
-  axios.put(getResourceAddress(resource), data, config)
-    .then(done)
-    .catch(error)
+export const put = (opts: options): void => {
+  axios.put(getResourceAddress(opts.resource), opts.data, opts.config)
+    .then(opts.done)
+    .catch(opts.error)
 }
 
 /**
@@ -67,8 +74,8 @@ export const put = (resource, done, error, data = {}, config = {}) => {
  * @param {function}  error - error callback.
  * @param {Object}  [config = {}] - request config.
  */
-export const del = (resource, done, error, config = {}) => {
-  axios.delete(getResourceAddress(resource), config)
-    .then(done)
-    .catch(error)
+export const del = (opts: options): void => {
+  axios.delete(getResourceAddress(opts.resource), opts.config)
+    .then(opts.done)
+    .catch(opts.error)
 }
