@@ -15,18 +15,12 @@
         </ion-toolbar>
       </ion-header>
       <ion-list>
-        <ion-item 
+        <movie-item 
           v-for="movie in computedFilteredMovies" 
           v-bind:key="movie.Id" 
-          button 
-          @click="openModal(movie)"
-        >
-          <ion-img :src="movie.LargePosterUrl" class="item-avatar" ></ion-img>
-          <ion-label>
-            <h2>{{movie.Name}}</h2>
-            <p class="movie-genre">{{movie.Genres.toUpperCase()}}</p>
-          </ion-label>
-        </ion-item>
+          :movie="movie"
+          :isButton="true" 
+          @click="openModal(movie)"/>
       </ion-list>
       <ion-button v-if="computedFilteredMovies != movies" expand="block" @click="filterGenre=''" color="danger">Clear Filter</ion-button>
     </ion-content>
@@ -38,12 +32,13 @@
 <script lang="ts">
 
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonList,
-   IonItem, IonLabel, modalController, pickerController, IonButtons, 
-   IonButton, IonImg } from '@ionic/vue';
+   modalController, pickerController, IonButtons, 
+   IonButton  } from '@ionic/vue';
 import { get } from '../helpers/api';
 import  MovieDetailsModal  from '../modals/MovieDetails.vue';
 import { informationCircle } from 'ionicons/icons';
 import { defineComponent } from 'vue';
+import MovieItem from '../components/MovieItem.vue';
 
 interface movieInterface {
   Id: number;
@@ -72,12 +67,10 @@ export default defineComponent({
     IonTitle, 
     IonContent, 
     IonPage, 
-    IonList, 
-    IonItem,
-    IonLabel, 
+    IonList,
     IonButtons, 
     IonButton,
-    IonImg
+    MovieItem,
   },
   setup() {
     return {
@@ -197,25 +190,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-ion-item {
-  --background:#131033;
-  --border-radius: 20px;
-  margin-bottom: 5%;
-  margin-top: 5%;
-}
-
-ion-label {
-  padding-left:10%;
-}
-
-ion-label h2 {
-  white-space: normal;
-  font-weight: 800;
-}
-
-ion-label p {
-  white-space: normal;
-}
 
 ion-list {
   margin-left: 5%;
@@ -223,12 +197,6 @@ ion-list {
   margin-top: 5%;
   margin-bottom: 5%;
   background-color: rgb(0, 0, 0);
-}
-
-.item-avatar {
-  width:40%; 
-  margin-top:5%; 
-  margin-bottom:5%;
 }
 
 </style>
