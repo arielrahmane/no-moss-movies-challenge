@@ -1,0 +1,11 @@
+{
+  "name": "photo-gallery",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue",
+  "proxies": [{
+      "path": "/tabs/movies",
+      "proxyUrl": "https://www.eventcinemas.com.au/Movies/GetNowShowing"
+  }]
+}
