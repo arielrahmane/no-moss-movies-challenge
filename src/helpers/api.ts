@@ -1,6 +1,5 @@
 import { moviesApi } from '../config/config.dev'
 import axios from 'axios'
-
 interface options {
   resource: string;
   done: (response: any) => void;
@@ -32,7 +31,7 @@ const getResourceAddress = (resource: string): string => {
  * @param {function}  error - error callback.
  * @param {Object}  [config = {}] - request config.
  */
-export const get = (opts: options) => {
+export const get = (opts: options): void => {
   axios.get(getResourceAddress(opts.resource), opts.config)
     .then(opts.done)
     .catch(opts.error)
@@ -47,7 +46,7 @@ export const get = (opts: options) => {
  * @param {Object}  [data = {}] - request data.
  * @param {Object}  [config = {}] - request config.
  */
-export const post = (opts: options) => {
+export const post = (opts: options): void => {
   axios.post(getResourceAddress(opts.resource), opts.data, opts.config)
     .then(opts.done)
     .catch(opts.error)
@@ -61,7 +60,7 @@ export const post = (opts: options) => {
  * @param {Object}  [data = {}] - request data.
  * @param {Object}  [config = {}] - request config.
  */
-export const put = (opts: options) => {
+export const put = (opts: options): void => {
   axios.put(getResourceAddress(opts.resource), opts.data, opts.config)
     .then(opts.done)
     .catch(opts.error)
@@ -75,7 +74,7 @@ export const put = (opts: options) => {
  * @param {function}  error - error callback.
  * @param {Object}  [config = {}] - request config.
  */
-export const del = (opts: options) => {
+export const del = (opts: options): void => {
   axios.delete(getResourceAddress(opts.resource), opts.config)
     .then(opts.done)
     .catch(opts.error)

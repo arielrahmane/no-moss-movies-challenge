@@ -20,8 +20,9 @@
 <script lang="ts">
 import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
 import { logoIonic, list } from 'ionicons/icons';
+import { defineComponent } from 'vue';
 
-export default {
+export default defineComponent({
   name: 'Tabs',
   components: { IonLabel, IonTabs, IonTabBar, IonTabButton, IonIcon, IonPage, IonRouterOutlet },
   setup() {
@@ -30,7 +31,7 @@ export default {
       list
     }
   }
-}
+})
 </script>
 
 <style scoped>

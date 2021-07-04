@@ -25,8 +25,8 @@ class Api {
    * @returns {string} The main address for the movies
    */
   address(): string {
-    let port = this._api.port !== '' ? ':' + this._api.port : '';
-    let version = this._api.version !== '' ? this._api.version + '/' : '';
+    const port = this._api.port !== '' ? ':' + this._api.port : '';
+    const version = this._api.version !== '' ? this._api.version + '/' : '';
     return this._api.protocol + '://' + this._api.host + port + '/' + version;
   }
   
@@ -38,24 +38,3 @@ export const moviesApi = new Api({
   host: 'app.nomoss.co/proxy/?url=https://www.eventcinemas.com.au',
   port: '',
 });
-
-/*export default {
-  debug: false,
-  api: {
-    version: '',
-    protocol: 'http',
-    host: 'app.nomoss.co/proxy/?url=https://www.eventcinemas.com.au',
-    port: '',
-    address: function (): string {
-      return this.protocol +
-        '://' +
-        this.host +
-        (this.port !== '' ? ':' + this.port : '') +
-        '/' +
-        (this.version !== '' ? this.version + '/' : '')
-    }
-  },
-  crypto: {
-    secret: ''
-  }
-}*/

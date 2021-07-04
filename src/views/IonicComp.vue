@@ -61,8 +61,9 @@ import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonLis
         popoverController   } from '@ionic/vue';
 import SamplePopOver from '../popovers/samplePopOver.vue';
 import { logoFacebook, logoTwitter, logoVimeo, caretBack, chevronBackCircleOutline } from 'ionicons/icons';
+import { defineComponent  } from 'vue';
 
-export default  {
+export default defineComponent({
   name: 'IonicComp',
   components: { 
     IonHeader, 
@@ -104,5 +105,5 @@ export default  {
       console.log('onDidDismiss resolved with role', role);
     },
   }
-}
+})
 </script>

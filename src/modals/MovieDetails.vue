@@ -28,7 +28,7 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, IonImg, IonCardHeader,
    IonCardSubtitle, IonCardTitle, IonCardContent, modalController, IonButton, IonButtons, IonCard } from '@ionic/vue';
 import { defineComponent  } from 'vue';
 
-export default defineComponent ({
+export default defineComponent({
   name: 'MovieDetailsModal',
   props: {
     movie: {}
