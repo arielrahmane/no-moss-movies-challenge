@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonImg, IonCardHeader,
-   IonCardSubtitle, IonCardTitle, IonCardContent, modalController } from '@ionic/vue';
+   IonCardSubtitle, IonCardTitle, IonCardContent, modalController, IonButton, IonButtons, IonCard } from '@ionic/vue';
 import { defineComponent  } from 'vue';
 
 export default defineComponent ({
@@ -42,7 +42,10 @@ export default defineComponent ({
       IonCardHeader, 
       IonCardSubtitle, 
       IonCardTitle, 
-      IonCardContent
+      IonCardContent, 
+      IonButton, 
+      IonButtons, 
+      IonCard
     },
     methods: {
       closeModal: async function () {

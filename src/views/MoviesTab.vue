@@ -39,10 +39,11 @@
 
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonList,
    IonItem, IonLabel, modalController, pickerController, IonButtons, 
-   IonButton } from '@ionic/vue';
+   IonButton, IonImg } from '@ionic/vue';
 import { get } from '../helpers/api';
 import  MovieDetailsModal  from '../modals/MovieDetails.vue';
 import { informationCircle } from 'ionicons/icons';
+import { defineComponent } from 'vue';
 
 interface movieInterface {
   Id: number;
@@ -63,7 +64,7 @@ interface pickerColumn {
   options: pickerOption[];
 }
 
-export default {
+export default defineComponent({
   name: 'MoviesTab',
   components: { 
     IonHeader, 
@@ -76,42 +77,36 @@ export default {
     IonLabel, 
     IonButtons, 
     IonButton,
+    IonImg
   },
   setup() {
     return {
       informationCircle
     }
   },
-  data () {
+  data() {
     return {
-      movies: [] as movieInterface[],
-      filterGenre: '' as string,
+    movies: [] as movieInterface[],
+    filterGenre: '' as string,
     }
   },
-  mounted () {
+  mounted() {
     console.log("Movies Tab mounted");
     this.getMoviesList();
   },
-  created () {
-    console.log("Movies Tab created");
-  },
-  breforeDestroy () {
-    console.log("Movies Tab destroyed");
-  },
   computed: {
     computedFilteredMovies(): movieInterface[] {
-      var filterGenre = this.filterGenre;
-      var movies = this.movies;
-      if (filterGenre === '') {
-        return movies;
+      const vm = this;
+      if (vm.filterGenre === '') {
+        return vm.movies;
       } else {
-        return movies.filter(function (movie: movieInterface) {
-          return movie.Genres == filterGenre;
+        return vm.movies.filter(function (movie: movieInterface) {
+          return movie.Genres == vm.filterGenre;
         });
       }
     },
     computedGenres(): pickerColumn[] {
-      var movies = this.movies;
+      const vm = this;
 
       // Array with available genres
       var availableGenres: string[] = []; 
@@ -123,7 +118,7 @@ export default {
       * Iteration on the list of movies to get the available genres. 
       * This allows the user to have the full list of genres for the filtering feature.
       */
-      for (let movie of movies) {
+      for (let movie of vm.movies) {
         if (!availableGenres.includes(movie.Genres) && movie.Genres) {
           availableGenres.push(movie.Genres);
           opts.push({text: movie.Genres.toUpperCase(), value: movie.Genres});
@@ -133,14 +128,14 @@ export default {
     }
   },
   methods: {
-    getMoviesList () {
-      var movies = this.movies;
+    getMoviesList (): void {
+      const vm = this;
       get(
         {
           resource: "Movies/GetNowShowing", 
           done: (response) => {
-            movies = [...response.data.Data.Movies];
-            console.log(`movies`, movies);
+            vm.movies = [...response.data.Data.Movies];
+            console.log(`movies`, vm.movies);
           },
           error: (error) => {
             console.log("HTTP GET Request Error: ", error);
@@ -149,7 +144,7 @@ export default {
         }
       )
     },
-    async openModal (selectedMovie: movieInterface) {
+    async openModal (selectedMovie: movieInterface): Promise<void> {
       const modal = await modalController
         .create({
           component: MovieDetailsModal,
@@ -162,10 +157,10 @@ export default {
         })
       return modal.present();
     },
-    async openPicker () {
-      var filterGenre = this.filterGenre;
+    async openPicker (): Promise<void> {
+      const vm = this;
       const picker = await pickerController.create({
-        columns: this.computedGenres,
+        columns: vm.computedGenres,
         buttons: [
           {
             text: 'Cancel',
@@ -176,7 +171,7 @@ export default {
             handler: (value) => {
               console.log(`Got Value ${value}`);
               console.log(value.genres.value);
-              filterGenre = value.genres.value;
+              vm.filterGenre = value.genres.value;
             }
           }
         ]
@@ -198,7 +193,7 @@ export default {
 
     }
   }
-}
+})
 </script>
 
 <style scoped>

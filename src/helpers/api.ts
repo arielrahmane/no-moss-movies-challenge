@@ -5,8 +5,8 @@ interface options {
   resource: string;
   done: (response: any) => void;
   error: (error: any) => void;
-  data?: {};
-  config: {};
+  data?: any;
+  config: any;
 }
 
 /**
@@ -21,7 +21,7 @@ interface options {
  */
 const getResourceAddress = (resource: string): string => {
   resource = resource.trim();
-  return moviesApi.address + resource;
+  return moviesApi.address() + resource;
 }
 
 /**
