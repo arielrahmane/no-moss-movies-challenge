@@ -134,8 +134,8 @@ export default defineComponent({
           {
             text: 'Confirm',
             handler: (value) => {
-              console.log(`Got Value ${value}`);
-              console.log(value.genres.value);
+              //console.log(`Got Value ${value}`);
+              //console.log(value.genres.value);
               vm.filterGenre = value.genres.value;
             }
           }
@@ -163,12 +163,6 @@ export default defineComponent({
 
 <style scoped>
 
-ion-list {
-  margin-left: 5%;
-  margin-right: 5%;
-  margin-top: 5%;
-  margin-bottom: 5%;
-  background-color: rgb(0, 0, 0);
-}
+
 
 </style>

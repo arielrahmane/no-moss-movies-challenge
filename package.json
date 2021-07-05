@@ -1,5 +1,5 @@
 {
-  "name": "photo-gallery",
+  "name": "movies-list",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -10,6 +10,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@capacitor/android": "3.0.2",
     "@capacitor/app": "1.0.2",
     "@capacitor/camera": "^1.0.2",
     "@capacitor/core": "3.0.2",
@@ -47,5 +48,5 @@
     "eslint-plugin-vue": "^7.0.0-0",
     "vue-jest": "^5.0.0-0"
   },
-  "description": "An Ionic project"
+  "description": "No Moss challenge to display list of movies"
 }

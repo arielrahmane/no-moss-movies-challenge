@@ -125,8 +125,8 @@ export default defineComponent({
         })
       await popover.present();
 
-      const { role } = await popover.onDidDismiss();
-      console.log('onDidDismiss resolved with role', role);
+      //const { role } = await popover.onDidDismiss();
+      //console.log('onDidDismiss resolved with role', role);
     },
     retrieveMovies (): void {
       const vm = this;
@@ -137,7 +137,8 @@ export default defineComponent({
             vm.store.commit(MutationType.SetMovies, response.data.Data.Movies);
           },
           error: (error) => {
-            console.log("HTTP GET Request Error: ", error);
+            alert(error);
+            //console.log("HTTP GET Request Error: ", error);
           },
           config:  {}
         }
