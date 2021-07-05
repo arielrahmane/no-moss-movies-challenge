@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/android.iml" filepath="$PROJECT_DIR$/android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/android.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/android.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-831261457/android.capacitor-android.iml" filepath="$PROJECT_DIR$/.idea/modules/-831261457/android.capacitor-android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1046605554/android.capacitor-app.iml" filepath="$PROJECT_DIR$/.idea/modules/-1046605554/android.capacitor-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1059390936/android.capacitor-camera.iml" filepath="$PROJECT_DIR$/.idea/modules/1059390936/android.capacitor-camera.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/capacitor-cordova-android-plugins/android.capacitor-cordova-android-plugins.iml" filepath="$PROJECT_DIR$/.idea/modules/capacitor-cordova-android-plugins/android.capacitor-cordova-android-plugins.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1389057502/android.capacitor-filesystem.iml" filepath="$PROJECT_DIR$/.idea/modules/1389057502/android.capacitor-filesystem.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-888308183/android.capacitor-haptics.iml" filepath="$PROJECT_DIR$/.idea/modules/-888308183/android.capacitor-haptics.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1489105958/android.capacitor-keyboard.iml" filepath="$PROJECT_DIR$/.idea/modules/-1489105958/android.capacitor-keyboard.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/105453035/android.capacitor-status-bar.iml" filepath="$PROJECT_DIR$/.idea/modules/105453035/android.capacitor-status-bar.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/2068631784/android.capacitor-storage.iml" filepath="$PROJECT_DIR$/.idea/modules/2068631784/android.capacitor-storage.iml" />
+    </modules>
+  </component>
+</project>
