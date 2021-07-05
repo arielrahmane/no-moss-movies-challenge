@@ -27,27 +27,17 @@
   </ion-page>
 </template>
 
-
-
 <script lang="ts">
 
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonList,
    modalController, pickerController, IonButtons, 
    IonButton  } from '@ionic/vue';
-import { get } from '../helpers/api';
 import  MovieDetailsModal  from '../modals/MovieDetails.vue';
 import { informationCircle } from 'ionicons/icons';
-import { defineComponent } from 'vue';
+import { defineComponent, computed } from 'vue';
 import MovieItem from '../components/MovieItem.vue';
-
-interface movieInterface {
-  Id: number;
-  Name: string;
-  Genres: string;
-  Synopsis: string;
-  LargePosterUrl: string;
-  [index: string]: any;
-}
+import { MovieInterface } from '../store/modules/state'
+import { useStore } from '../store';
 
 interface pickerOption {
   text: string;
@@ -73,27 +63,25 @@ export default defineComponent({
     MovieItem,
   },
   setup() {
+    const store = useStore();
+    const movies = computed(() => store.getters.moviesList)
     return {
-      informationCircle
+      informationCircle,
+      movies
     }
   },
   data() {
     return {
-    movies: [] as movieInterface[],
     filterGenre: '' as string,
     }
   },
-  mounted() {
-    console.log("Movies Tab mounted");
-    this.getMoviesList();
-  },
   computed: {
-    computedFilteredMovies(): movieInterface[] {
+    computedFilteredMovies(): MovieInterface[] {
       const vm = this;
       if (vm.filterGenre === '') {
         return vm.movies;
       } else {
-        return vm.movies.filter(function (movie: movieInterface) {
+        return vm.movies.filter(function (movie: MovieInterface) {
           return movie.Genres == vm.filterGenre;
         });
       }
@@ -121,23 +109,7 @@ export default defineComponent({
     }
   },
   methods: {
-    getMoviesList (): void {
-      const vm = this;
-      get(
-        {
-          resource: "Movies/GetNowShowing", 
-          done: (response) => {
-            vm.movies = [...response.data.Data.Movies];
-            console.log(`movies`, vm.movies);
-          },
-          error: (error) => {
-            console.log("HTTP GET Request Error: ", error);
-          },
-          config:  {}
-        }
-      )
-    },
-    async openModal (selectedMovie: movieInterface): Promise<void> {
+    async openModal (selectedMovie: MovieInterface): Promise<void> {
       const modal = await modalController
         .create({
           component: MovieDetailsModal,

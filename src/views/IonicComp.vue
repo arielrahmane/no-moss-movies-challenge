@@ -1,5 +1,6 @@
 <template>
   <ion-page>
+
     <ion-header>
       <ion-toolbar>
         <ion-title>Ionic Components</ion-title>
@@ -11,6 +12,7 @@
           <ion-title size="large">Ionic Components</ion-title>
         </ion-toolbar>
       </ion-header>
+
       <ion-list>
         <ion-item-divider></ion-item-divider>
         <ion-item>
@@ -34,6 +36,16 @@
           </ion-segment-button>
         </ion-segment>
       </ion-list>
+
+      <ion-button @click="retrieveMovies" color="primary" expand="block">Retrieve Movies</ion-button>
+
+      <ion-label>
+        <div class="movies-count">
+          <h2>Number of Movies:</h2>
+          <h1>{{moviesCount}}</h1>
+        </div>
+      </ion-label>
+
       <ion-fab horizontal="end" vertical="bottom" slot="fixed">
         <ion-fab-button color="light">
           <ion-icon :md="caretBack" :ios="chevronBackCircleOutline"></ion-icon>
@@ -58,10 +70,13 @@
 
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonList, IonItemDivider, 
         IonItem, IonDatetime, IonSegment, IonIcon, IonFab, IonFabButton, IonFabList,
-        popoverController   } from '@ionic/vue';
+        popoverController, IonLabel, IonToggle, IonSegmentButton   } from '@ionic/vue';
 import SamplePopOver from '../popovers/samplePopOver.vue';
 import { logoFacebook, logoTwitter, logoVimeo, caretBack, chevronBackCircleOutline } from 'ionicons/icons';
-import { defineComponent  } from 'vue';
+import { defineComponent, computed } from 'vue';
+import { useStore } from '../store';
+import { MutationType } from '../store/modules/mutations'
+import { get } from '../helpers/api'
 
 export default defineComponent({
   name: 'IonicComp',
@@ -80,15 +95,24 @@ export default defineComponent({
     IonIcon, 
     IonFab, 
     IonFabButton, 
-    IonFabList
+    IonFabList,
+    IonLabel, 
+    IonToggle, 
+    IonSegmentButton 
   },
   setup() {
+    const store = useStore();
+    const loading = computed(() => store.state.loading);
+    const moviesCount = computed(() => store.getters.moviesCount)
     return {
       logoFacebook, 
       logoTwitter, 
       logoVimeo, 
       caretBack, 
-      chevronBackCircleOutline
+      chevronBackCircleOutline,
+      store,
+      loading,
+      moviesCount
     }
   },
   methods: {
@@ -104,6 +128,40 @@ export default defineComponent({
       const { role } = await popover.onDidDismiss();
       console.log('onDidDismiss resolved with role', role);
     },
+    retrieveMovies (): void {
+      const vm = this;
+      get(
+        {
+          resource: "Movies/GetNowShowing", 
+          done: (response) => {
+            vm.store.commit(MutationType.SetMovies, response.data.Data.Movies);
+          },
+          error: (error) => {
+            console.log("HTTP GET Request Error: ", error);
+          },
+          config:  {}
+        }
+      )
+    },
   }
 })
 </script>
+
+<style scoped>
+
+ion-label .movies-count {
+  margin-left: 30%;
+  margin-top: 30%;
+  white-space: normal;
+}
+
+ion-label h1 {
+  font-size: 400%;
+  margin-left: 20%;
+}
+
+ion-label h2 {
+  font-size: 200%;
+}
+
+</style>
