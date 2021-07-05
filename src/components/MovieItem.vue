@@ -29,10 +29,12 @@ export default defineComponent({
 
 <style scoped>
 ion-item {
-  --background:#131033;
+  --background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
   --border-radius: 20px;
   margin-bottom: 5%;
   margin-top: 5%;
+  margin-left: 5%;
+  margin-right: 5%;
 }
 
 ion-label {
