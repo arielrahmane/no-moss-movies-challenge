@@ -27,8 +27,6 @@
   </ion-page>
 </template>
 
-
-
 <script lang="ts">
 
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonList,
@@ -69,7 +67,6 @@ export default defineComponent({
     const movies = computed(() => store.getters.moviesList)
     return {
       informationCircle,
-      store,
       movies
     }
   },
