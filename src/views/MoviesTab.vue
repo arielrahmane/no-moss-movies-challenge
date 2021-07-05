@@ -39,15 +39,18 @@ import  MovieDetailsModal  from '../modals/MovieDetails.vue';
 import { informationCircle } from 'ionicons/icons';
 import { defineComponent } from 'vue';
 import MovieItem from '../components/MovieItem.vue';
+import { MovieInterface } from '../store/modules/state'
+import { useStore } from '../store';
+import { MutationType } from '../store/modules/mutations'
 
-interface movieInterface {
+/*interface movieInterface {
   Id: number;
   Name: string;
   Genres: string;
   Synopsis: string;
   LargePosterUrl: string;
   [index: string]: any;
-}
+}*/
 
 interface pickerOption {
   text: string;
@@ -73,13 +76,15 @@ export default defineComponent({
     MovieItem,
   },
   setup() {
+    const store = useStore();
     return {
-      informationCircle
+      informationCircle,
+      store
     }
   },
   data() {
     return {
-    movies: [] as movieInterface[],
+    movies: [] as MovieInterface[],
     filterGenre: '' as string,
     }
   },
@@ -88,12 +93,12 @@ export default defineComponent({
     this.getMoviesList();
   },
   computed: {
-    computedFilteredMovies(): movieInterface[] {
+    computedFilteredMovies(): MovieInterface[] {
       const vm = this;
       if (vm.filterGenre === '') {
         return vm.movies;
       } else {
-        return vm.movies.filter(function (movie: movieInterface) {
+        return vm.movies.filter(function (movie: MovieInterface) {
           return movie.Genres == vm.filterGenre;
         });
       }
@@ -128,6 +133,7 @@ export default defineComponent({
           resource: "Movies/GetNowShowing", 
           done: (response) => {
             vm.movies = [...response.data.Data.Movies];
+            vm.store.commit(MutationType.SetMovies, response.data.Data.Movies);
             console.log(`movies`, vm.movies);
           },
           error: (error) => {
@@ -137,7 +143,7 @@ export default defineComponent({
         }
       )
     },
-    async openModal (selectedMovie: movieInterface): Promise<void> {
+    async openModal (selectedMovie: MovieInterface): Promise<void> {
       const modal = await modalController
         .create({
           component: MovieDetailsModal,

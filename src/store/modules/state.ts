@@ -1,7 +1,7 @@
-export interface MovieItem {
+export interface MovieInterface {
     Id: number;
     Name: string;
-    Genres?: string;
+    Genres: string;
     Synopsis?: string;
     LargePosterUrl?: string;
     [index: string]: any;
@@ -9,7 +9,7 @@ export interface MovieItem {
 
 export interface State {
     loading: boolean;
-    movies: MovieItem[];
+    movies: MovieInterface[];
 }
 
 export const state: State = {

@@ -1,5 +1,6 @@
 <template>
   <ion-page>
+
     <ion-header>
       <ion-toolbar>
         <ion-title>Ionic Components</ion-title>
@@ -11,6 +12,7 @@
           <ion-title size="large">Ionic Components</ion-title>
         </ion-toolbar>
       </ion-header>
+
       <ion-list>
         <ion-item-divider></ion-item-divider>
         <ion-item>
@@ -34,6 +36,11 @@
           </ion-segment-button>
         </ion-segment>
       </ion-list>
+
+      <div>
+        <h1>{{moviesCount}}</h1>
+      </div>
+
       <ion-fab horizontal="end" vertical="bottom" slot="fixed">
         <ion-fab-button color="light">
           <ion-icon :md="caretBack" :ios="chevronBackCircleOutline"></ion-icon>
@@ -61,7 +68,8 @@ import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonLis
         popoverController   } from '@ionic/vue';
 import SamplePopOver from '../popovers/samplePopOver.vue';
 import { logoFacebook, logoTwitter, logoVimeo, caretBack, chevronBackCircleOutline } from 'ionicons/icons';
-import { defineComponent  } from 'vue';
+import { defineComponent, computed } from 'vue';
+import { useStore } from '../store';
 
 export default defineComponent({
   name: 'IonicComp',
@@ -83,12 +91,17 @@ export default defineComponent({
     IonFabList
   },
   setup() {
+    const store = useStore();
+    const loading = computed(() => store.state.loading);
+    const moviesCount = computed(() => store.getters.moviesCount)
     return {
       logoFacebook, 
       logoTwitter, 
       logoVimeo, 
       caretBack, 
-      chevronBackCircleOutline
+      chevronBackCircleOutline,
+      loading,
+      moviesCount
     }
   },
   methods: {

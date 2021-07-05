@@ -1,3 +1,9 @@
+/**
+ * * Understand better this module
+ * TODO: Understand "commit"
+ * TODO: Create an action
+ */
+
 import { ActionContext, ActionTree } from 'vuex'
 import { Mutations, MutationType } from './mutations'
 import { State } from './state'
@@ -26,10 +32,5 @@ export const actions: ActionTree<State, State> & Actions = {
     await sleep(1000)
 
     commit(MutationType.SetLoading, false)
-    commit(MutationType.CreateMovie, {
-        Id: 123456,
-        Name: "My New Movie"
-      }
-    )
   }
 }
