@@ -37,9 +37,14 @@
         </ion-segment>
       </ion-list>
 
-      <div>
-        <h1>{{moviesCount}}</h1>
-      </div>
+      <ion-button @click="retrieveMovies" color="primary" expand="block">Retrieve Movies</ion-button>
+
+      <ion-label>
+        <div class="movies-count">
+          <h2>Number of Movies:</h2>
+          <h1>{{moviesCount}}</h1>
+        </div>
+      </ion-label>
 
       <ion-fab horizontal="end" vertical="bottom" slot="fixed">
         <ion-fab-button color="light">
@@ -65,11 +70,13 @@
 
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonList, IonItemDivider, 
         IonItem, IonDatetime, IonSegment, IonIcon, IonFab, IonFabButton, IonFabList,
-        popoverController   } from '@ionic/vue';
+        popoverController, IonLabel, IonToggle, IonSegmentButton   } from '@ionic/vue';
 import SamplePopOver from '../popovers/samplePopOver.vue';
 import { logoFacebook, logoTwitter, logoVimeo, caretBack, chevronBackCircleOutline } from 'ionicons/icons';
 import { defineComponent, computed } from 'vue';
 import { useStore } from '../store';
+import { MutationType } from '../store/modules/mutations'
+import { get } from '../helpers/api'
 
 export default defineComponent({
   name: 'IonicComp',
@@ -88,7 +95,10 @@ export default defineComponent({
     IonIcon, 
     IonFab, 
     IonFabButton, 
-    IonFabList
+    IonFabList,
+    IonLabel, 
+    IonToggle, 
+    IonSegmentButton 
   },
   setup() {
     const store = useStore();
@@ -100,6 +110,7 @@ export default defineComponent({
       logoVimeo, 
       caretBack, 
       chevronBackCircleOutline,
+      store,
       loading,
       moviesCount
     }
@@ -117,6 +128,40 @@ export default defineComponent({
       const { role } = await popover.onDidDismiss();
       console.log('onDidDismiss resolved with role', role);
     },
+    retrieveMovies (): void {
+      const vm = this;
+      get(
+        {
+          resource: "Movies/GetNowShowing", 
+          done: (response) => {
+            vm.store.commit(MutationType.SetMovies, response.data.Data.Movies);
+          },
+          error: (error) => {
+            console.log("HTTP GET Request Error: ", error);
+          },
+          config:  {}
+        }
+      )
+    },
   }
 })
 </script>
+
+<style scoped>
+
+ion-label .movies-count {
+  margin-left: 30%;
+  margin-top: 30%;
+  white-space: normal;
+}
+
+ion-label h1 {
+  font-size: 400%;
+  margin-left: 20%;
+}
+
+ion-label h2 {
+  font-size: 200%;
+}
+
+</style>
