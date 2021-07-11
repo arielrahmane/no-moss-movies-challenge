@@ -1,7 +1,7 @@
-<template>
-    <ion-item :button="isButton">
+<template class="movie-item-component">
+    <ion-item class="movie-item" :button="isButton">
         <ion-img :src="movie.LargePosterUrl" class="item-avatar" ></ion-img>
-        <ion-label>
+        <ion-label class="movie-info">
             <h2>{{movie.Name}}</h2>
             <p class="movie-genre">{{movie.Genres.toUpperCase()}}</p>
         </ion-label>
@@ -28,20 +28,31 @@ export default defineComponent({
 </script>
 
 <style scoped>
-ion-item {
+
+ion-item.movie-item {
+  position: relative;
+  content: "";
+  clear: both;
+  display: block;
   --background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
-  --border-radius: 20px;
   margin-bottom: 5%;
   margin-top: 5%;
   margin-left: 5%;
   margin-right: 5%;
+  --border-style: solid;
+  --border-width: 0px;
+  --border-color: rgba(9,9,121,1);
+  --border-radius: 20px;
+  box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.2), 0 6px 20px 0 rgba(38, 0, 255, 0.19);
 }
 
-ion-label {
-  padding-left:10%;
+button.item-native {
+  border-style: solid;
+  border-radius: 20px;
 }
 
-ion-label h2 {
+
+ion-label.movie-info {
   white-space: normal;
   font-weight: 800;
 }
@@ -51,9 +62,20 @@ ion-label p {
 }
 
 .item-avatar {
-  width:40%; 
+  position: relative;
+  float: left;
+  width: 40%;
   margin-top:5%; 
   margin-bottom:5%;
+}
+
+
+.item-avatar + .movie-info {
+  position: absolute;
+  top: 0px;
+  left: 40%;
+  margin-top:5%; 
+  padding-right: 10px;
 }
 
 </style>

@@ -8,7 +8,7 @@
         <ion-title>Movies</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content :fullscreen="true">
+    <ion-content :fullscreen="true" class="movies-tab">
       <ion-header collapse="condense">
         <ion-toolbar>
           <ion-title size="large">Movies</ion-title>
@@ -162,7 +162,5 @@ export default defineComponent({
 </script>
 
 <style scoped>
-
-
 
 </style>
