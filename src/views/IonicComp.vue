@@ -16,13 +16,25 @@
       <div class="component-options">
         <strong>Component Options</strong>
 
-        <!-- SEGMENT -->
-        <div class="option-segment">
-          <ion-segment :value="selectedSegment" @ionChange.prevent="segmentChanged($event)">
-            <ion-segment-button value="provider">
+        <!-- SEGMENT IOS-->
+        <div class="option-segment-ios">
+          <ion-segment :value="selectedSegmentIos" @ionChange.prevent="segmentChanged($event)">
+            <ion-segment-button mode="ios" value="provider">
               <ion-label>Provider</ion-label>
             </ion-segment-button>
-            <ion-segment-button value="myself">
+            <ion-segment-button mode="ios" value="myself">
+              <ion-label>Myself</ion-label>
+            </ion-segment-button>
+          </ion-segment>
+        </div>
+
+        <!-- SEGMENT ANDROID-->
+        <div class="option-segment-android">
+          <ion-segment :value="selectedSegmentAndroid" @ionChange.prevent="segmentChangedAndroid($event)">
+            <ion-segment-button mode="md" value="provider">
+              <ion-label>Provider</ion-label>
+            </ion-segment-button>
+            <ion-segment-button mode="md" value="myself">
               <ion-label>Myself</ion-label>
             </ion-segment-button>
           </ion-segment>
@@ -123,7 +135,8 @@ export default defineComponent({
   },
   data() {
     return {
-      selectedSegment: "",
+      selectedSegmentIos: "",
+      selectedSegmentAndroid: "",
       selectedRadio: ""
     }
   },
@@ -156,9 +169,13 @@ export default defineComponent({
         }
       )
     },
-    segmentChanged(ev: CustomEvent) {
+    segmentChangedIos(ev: CustomEvent) {
       console.log(ev);
-      this.selectedSegment = ev.detail.value;
+      this.selectedSegmentIos = ev.detail.value;
+    },
+    segmentChangedAndroid(ev: CustomEvent) {
+      console.log(ev);
+      this.selectedSegmentAndroid = ev.detail.value;
     },
     radioCahnged(ev: CustomEvent) {
       console.log(ev);
@@ -179,12 +196,22 @@ export default defineComponent({
     margin: 1rem;
     font-size: 20px;
   }
-  .option-segment {
+  .option-segment-ios {
     width: 60%;
     margin: 1rem;
     ion-segment {
       ion-segment-button {
-        --background-focused: #b4ec51;
+        --indicator-color: #b4ec51;
+        --color-checked: black;
+      }
+    }
+  }
+  .option-segment-android {
+    width: 60%;
+    margin: 1rem;
+    ion-segment {
+      ion-segment-button {
+        --color-checked: #b4ec51;
       }
     }
   }
