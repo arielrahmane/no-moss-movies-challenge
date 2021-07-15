@@ -46,6 +46,8 @@
     "@vue/test-utils": "^2.0.0-0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^7.0.0-0",
+    "sass": "^1.26.5",
+    "sass-loader": "^8.0.2",
     "vue-jest": "^5.0.0-0"
   },
   "description": "No Moss challenge to display list of movies"
