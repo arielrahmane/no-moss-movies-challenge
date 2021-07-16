@@ -18,7 +18,7 @@
 
         <!-- SEGMENT IOS-->
         <div class="option-segment-ios">
-          <ion-segment :value="selectedSegmentIos" @ionChange.prevent="segmentChanged($event)">
+          <ion-segment :value="selectedSegmentIos" v-model="selectedSegmentIos">
             <ion-segment-button mode="ios" value="provider">
               <ion-label>Provider</ion-label>
             </ion-segment-button>
@@ -30,7 +30,7 @@
 
         <!-- SEGMENT ANDROID-->
         <div class="option-segment-android">
-          <ion-segment :value="selectedSegmentAndroid" @ionChange.prevent="segmentChangedAndroid($event)">
+          <ion-segment :value="selectedSegmentAndroid" v-model="selectedSegmentAndroid">
             <ion-segment-button mode="md" value="provider">
               <ion-label>Provider</ion-label>
             </ion-segment-button>
@@ -54,7 +54,11 @@
       <div class="display-data">
         <div class="data-box">
           <h2 class="segment-data">Selected segment: </h2>
-          <p>{{selectedSegment}}</p>
+          <p>{{selectedSegmentIos}}</p>
+        </div>
+        <div class="data-box">
+          <h2 class="segment-data">Selected segment: </h2>
+          <p>{{selectedSegmentAndroid}}</p>
         </div>
         <div class="data-box">
           <h2 class="radio-data">Selected radio: </h2>
@@ -168,18 +172,6 @@ export default defineComponent({
           config:  {}
         }
       )
-    },
-    segmentChangedIos(ev: CustomEvent) {
-      console.log(ev);
-      this.selectedSegmentIos = ev.detail.value;
-    },
-    segmentChangedAndroid(ev: CustomEvent) {
-      console.log(ev);
-      this.selectedSegmentAndroid = ev.detail.value;
-    },
-    radioCahnged(ev: CustomEvent) {
-      console.log(ev);
-      this.selectedRadio = ev.detail.value;
     }
   }
 })
@@ -202,7 +194,13 @@ export default defineComponent({
     ion-segment {
       ion-segment-button {
         --indicator-color: #b4ec51;
-        --color-checked: black;
+        --color-checked: rgb(49, 49, 49);
+        ion-label {
+          font-size: 1rem;
+          font-weight: 800;
+          padding-top: 0.8rem;
+          padding-bottom: 0.8rem;
+        }
       }
     }
   }
