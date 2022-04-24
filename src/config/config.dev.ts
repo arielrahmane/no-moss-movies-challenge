@@ -16,14 +16,6 @@ class Api {
     return this._api;
   }
 
-  /**
-   * @example
-   * api = {version: '', protocol: 'http', host: 'www.nomossco.com', port: ''}
-   * getAddress(api) ---> "http://www.nomossco.com/"
-   * 
-   * @param {api} api version, protocol, host and port
-   * @returns {string} The main address for the movies
-   */
   address(): string {
     const port = this._api.port !== '' ? ':' + this._api.port : '';
     const version = this._api.version !== '' ? this._api.version + '/' : '';
