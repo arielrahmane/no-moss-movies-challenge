@@ -38,6 +38,8 @@ import { defineComponent, computed } from 'vue';
 import MovieItem from '../components/MovieItem.vue';
 import { MovieInterface } from '../store/modules/state'
 import { useStore } from '../store';
+import { get } from '@/helpers/api';
+import { MutationType } from '../store/modules/mutations';
 
 interface pickerOption {
   text: string;
@@ -67,13 +69,17 @@ export default defineComponent({
     const movies = computed(() => store.getters.moviesList)
     return {
       informationCircle,
-      movies
+      movies,
+      store
     }
   },
   data() {
     return {
     filterGenre: '' as string,
     }
+  },
+  mounted() {
+    this.retrieveMovies();
   },
   computed: {
     computedFilteredMovies(): MovieInterface[] {
@@ -109,6 +115,22 @@ export default defineComponent({
     }
   },
   methods: {
+    retrieveMovies (): void {
+      const vm = this;
+      get(
+        {
+          resource: "Movies/GetNowShowing", 
+          done: (response) => {
+            vm.store.commit(MutationType.SetMovies, response.data.Data.Movies);
+          },
+          error: (error) => {
+            alert(error);
+            //console.log("HTTP GET Request Error: ", error);
+          },
+          config:  {}
+        }
+      )
+    },
     async openModal (selectedMovie: MovieInterface): Promise<void> {
       const modal = await modalController
         .create({
