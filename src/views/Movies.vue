@@ -52,7 +52,7 @@ interface pickerColumn {
 }
 
 export default defineComponent({
-  name: 'MoviesTab',
+  name: 'Movies',
   components: { 
     IonHeader, 
     IonToolbar, 

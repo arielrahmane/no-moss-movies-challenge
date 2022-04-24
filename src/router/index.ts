@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
-import MoviesTab from '../views/MoviesTab.vue';
+import Movies from '../views/Movies.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -9,7 +9,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/movies',
-    component: MoviesTab,
+    component: Movies,
   },
 ]
 
