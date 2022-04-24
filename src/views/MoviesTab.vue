@@ -5,13 +5,13 @@
         <ion-buttons slot="end">
           <ion-button @click="openPicker">Filter</ion-button>
         </ion-buttons>
-        <ion-title>Movies</ion-title>
+        <ion-title>SDM400 - Movies List</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true" class="movies-tab">
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large">Movies</ion-title>
+          <ion-title size="large">Movies List</ion-title>
         </ion-toolbar>
       </ion-header>
       <ion-list>
@@ -75,7 +75,7 @@ export default defineComponent({
   },
   data() {
     return {
-    filterGenre: '' as string,
+      filterGenre: '' as string,
     }
   },
   mounted() {
