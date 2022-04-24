@@ -21,7 +21,6 @@ class Api {
     const version = this._api.version !== '' ? this._api.version + '/' : '';
     return this._api.protocol + '://' + this._api.host + port + '/' + version;
   }
-  
 }
 
 export const moviesApi = new Api({
