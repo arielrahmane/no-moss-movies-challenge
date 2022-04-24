@@ -13,40 +13,70 @@
         </ion-toolbar>
       </ion-header>
 
-      <ion-list>
-        <ion-item-divider></ion-item-divider>
-        <ion-item>
-          <ion-label>Date</ion-label>
-          <ion-datetime placeholder="Select Date"></ion-datetime>
-        </ion-item>
-        <ion-button @click="openPopover" color="warning" expand="block">Click me</ion-button>
-        <ion-item>
-          <ion-label>Toggle Button</ion-label>
-          <ion-toggle name="Toggle Button" color="secondary" checked></ion-toggle>
-        </ion-item>
-        <ion-segment color="secondary" value="call">
-          <ion-segment-button value="No">
-            <ion-label>No</ion-label>
-          </ion-segment-button>
-          <ion-segment-button value="Moss">
-            <ion-label>Moss</ion-label>
-          </ion-segment-button>
-          <ion-segment-button value="Co">
-            <ion-label>Co</ion-label>
-          </ion-segment-button>
-        </ion-segment>
-      </ion-list>
+      <div class="component-options">
+        <strong>Component Options</strong>
 
-      <ion-button @click="retrieveMovies" color="primary" expand="block">Retrieve Movies</ion-button>
-
-      <ion-label>
-        <div class="movies-count">
-          <h2>Number of Movies:</h2>
-          <h1>{{moviesCount}}</h1>
+        <!-- SEGMENT IOS-->
+        <div class="option-segment-ios">
+          <ion-segment :value="selectedSegmentIos" v-model="selectedSegmentIos">
+            <ion-segment-button mode="ios" value="provider">
+              <ion-label>Provider</ion-label>
+            </ion-segment-button>
+            <ion-segment-button mode="ios" value="myself">
+              <ion-label>Myself</ion-label>
+            </ion-segment-button>
+          </ion-segment>
         </div>
-      </ion-label>
 
-      <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+        <!-- SEGMENT ANDROID-->
+        <div class="option-segment-android">
+          <ion-segment :value="selectedSegmentAndroid" v-model="selectedSegmentAndroid">
+            <ion-segment-button mode="md" value="provider">
+              <ion-label>Provider</ion-label>
+            </ion-segment-button>
+            <ion-segment-button mode="md" value="myself">
+              <ion-label>Myself</ion-label>
+            </ion-segment-button>
+          </ion-segment>
+        </div>
+
+        <!-- RADIO -->
+        <div class="option-radio">
+          <ion-radio-group v-model="selectedRadio">
+            <ion-radio name="payee" id="provider-radio" mode="md" value="provider"></ion-radio>
+            <ion-label for="provider-radio">Provider</ion-label>
+            <ion-radio name="payee" id="myself-radio" mode="md" value="myself"></ion-radio>
+            <ion-label for="myself-radio">Myself</ion-label>
+          </ion-radio-group>  
+        </div>
+      </div>
+
+      <div class="display-data">
+        <div class="data-box">
+          <h2 class="segment-data">Selected segment: </h2>
+          <p>{{selectedSegmentIos}}</p>
+        </div>
+        <div class="data-box">
+          <h2 class="segment-data">Selected segment: </h2>
+          <p>{{selectedSegmentAndroid}}</p>
+        </div>
+        <div class="data-box">
+          <h2 class="radio-data">Selected radio: </h2>
+          <p>{{selectedRadio}}</p>
+        </div>
+      </div>
+      
+      
+
+      <!-- Retrieve movies -->
+      <!--div class="movies-count">
+        <ion-button @click="retrieveMovies" expand="block">Retrieve Movies</ion-button>
+        <h2>Number of Movies</h2>
+        <h1>{{moviesCount}}</h1>
+      </!--div-->
+
+      <!-- FAB Button -->
+      <!--ion-fab horizontal="end" vertical="bottom" slot="fixed">
         <ion-fab-button color="light">
           <ion-icon :md="caretBack" :ios="chevronBackCircleOutline"></ion-icon>
         </ion-fab-button>
@@ -61,18 +91,18 @@
             <ion-icon :icon="logoVimeo"></ion-icon>
           </ion-fab-button>
         </ion-fab-list>
-      </ion-fab>
+      </!--ion-fab-->
+
     </ion-content>
   </ion-page>
 </template>
 
 <script lang="ts">
 
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonList, IonItemDivider, 
-        IonItem, IonDatetime, IonSegment, IonIcon, IonFab, IonFabButton, IonFabList,
-        popoverController, IonLabel, IonToggle, IonSegmentButton   } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonSegment,
+        popoverController, IonLabel, IonSegmentButton, IonRadio, IonRadioGroup  } from '@ionic/vue';
 import SamplePopOver from '../popovers/samplePopOver.vue';
-import { logoFacebook, logoTwitter, logoVimeo, caretBack, chevronBackCircleOutline } from 'ionicons/icons';
+import { logoFacebook, logoTwitter, logoVimeo, caretBack, chevronBackCircleOutline} from 'ionicons/icons';
 import { defineComponent, computed } from 'vue';
 import { useStore } from '../store';
 import { MutationType } from '../store/modules/mutations'
@@ -85,20 +115,12 @@ export default defineComponent({
     IonToolbar, 
     IonTitle, 
     IonContent, 
-    IonPage, 
-    IonButton, 
-    IonList, 
-    IonItemDivider, 
-    IonItem, 
-    IonDatetime,
+    IonPage,
     IonSegment,
-    IonIcon, 
-    IonFab, 
-    IonFabButton, 
-    IonFabList,
     IonLabel, 
-    IonToggle, 
-    IonSegmentButton 
+    IonSegmentButton,
+    IonRadio,
+    IonRadioGroup
   },
   setup() {
     const store = useStore();
@@ -113,6 +135,13 @@ export default defineComponent({
       store,
       loading,
       moviesCount
+    }
+  },
+  data() {
+    return {
+      selectedSegmentIos: "",
+      selectedSegmentAndroid: "",
+      selectedRadio: ""
     }
   },
   methods: {
@@ -143,26 +172,123 @@ export default defineComponent({
           config:  {}
         }
       )
-    },
+    }
   }
 })
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
-ion-label .movies-count {
-  margin-left: 30%;
+.component-options {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  strong {
+    margin: 1rem;
+    font-size: 20px;
+  }
+  .option-segment-ios {
+    width: 60%;
+    margin: 1rem;
+    ion-segment {
+      ion-segment-button {
+        --indicator-color: #b4ec51;
+        --color-checked: rgb(49, 49, 49);
+        ion-label {
+          font-size: 1rem;
+          font-weight: 800;
+          padding-top: 0.8rem;
+          padding-bottom: 0.8rem;
+        }
+      }
+    }
+  }
+  .option-segment-android {
+    width: 60%;
+    margin: 1rem;
+    ion-segment {
+      ion-segment-button {
+        --color-checked: #b4ec51;
+      }
+    }
+  }
+  .option-radio {
+    margin: 1rem;
+    ion-radio-group {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      ion-radio {
+        margin: 1rem;
+        --color-checked: #b4ec51;
+      }
+      ion-label {
+        margin-right: 2rem;
+      }
+    }
+  }
+}
+
+.display-data {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  .data-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 1rem;
+    margin-bottom: 0.2rem;
+    padding: 1rem;
+    border: 1px solid white;
+    width: 90%;
+    h2 {
+      margin-top: 0;
+      margin-bottom: 0;
+      margin-left: 1rem;
+      font-size: 20px;
+      font-weight: 800;
+    }
+    p {
+      margin-top: 0;
+      margin-bottom: 0;
+      margin-left: 1rem
+    }
+  }
+}
+
+.movies-count {
+  margin-left: 5%;
+  margin-right: 5%;
   margin-top: 30%;
   white-space: normal;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
+  border-radius: 20px;
+  ion-button {
+    display: block;
+    width: 90%;
+    margin-top: 10px;
+    --background: rgba(0,212,255,1);
+    --border-style: solid;
+    --border-width: 2px;
+    --border-color: black;
+    --color: black;
+    font-weight: 800;
+    font-size: 20px;
+  }
+  h2 {
+    font-size: 1.5rem;
+  }
 }
 
-ion-label h1 {
-  font-size: 400%;
-  margin-left: 20%;
-}
 
-ion-label h2 {
-  font-size: 200%;
-}
 
 </style>
